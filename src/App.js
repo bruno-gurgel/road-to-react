@@ -1,5 +1,7 @@
 // import './App.css';
 
+import { useState } from "react";
+
 export default function App() {
   const stories = [
     {
@@ -20,8 +22,10 @@ export default function App() {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleChange = (event) => {
-    console.log(event);
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -29,6 +33,10 @@ export default function App() {
       <h1>My Hacker Stories</h1>
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" onChange={handleChange} />
+
+      <p>
+        Searching for <strong>{searchTerm}</strong>.
+      </p>
 
       <hr />
 
