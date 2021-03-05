@@ -22,9 +22,15 @@ export default function App() {
     },
   ];
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const handleSearch = (event) => {
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
   };
+
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -34,7 +40,7 @@ export default function App() {
 
       <hr />
 
-      <List list={stories} />
+      <List list={searchedStories} />
     </div>
   );
 }
@@ -55,19 +61,10 @@ function List(props) {
 }
 
 function Search(props) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-
-    props.onSearch(event);
-  };
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={handleChange} />
-      <p>
-        Searching for <strong>{searchTerm}</strong>.
-      </p>
+      <input id="search" type="text" onChange={props.onSearch} />
     </div>
   );
 }
