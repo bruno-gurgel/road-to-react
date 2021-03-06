@@ -45,31 +45,28 @@ export default function App() {
   );
 }
 
-function List(props) {
-  return props.list.map(function (item) {
-    return (
-      <div key={item.objectID}>
-        <span>
-          <a href={item.url}>{item.title}</a>
-        </span>
-        <span>{item.author}</span>
-        <span>{item.num_comments}</span>
-        <span>{item.points}</span>
-      </div>
-    );
-  });
+function List({ list }) {
+  return list.map(({ objectID, ...item }) => <Item key={objectID} {...item} />);
 }
 
-function Search(props) {
+function Item({ title, url, author, num_comments, points }) {
+  return (
+    <div>
+      <span>
+        <a href={url}>{title}</a>
+      </span>
+      <span>{author}</span>
+      <span>{num_comments}</span>
+      <span>{points}</span>
+    </div>
+  );
+}
+
+function Search({ search, onSearch }) {
   return (
     <div>
       <label htmlFor="search">Search: </label>
-      <input
-        id="search"
-        type="text"
-        onChange={props.onSearch}
-        value={props.search}
-      />
+      <input id="search" type="text" onChange={onSearch} value={search} />
     </div>
   );
 }
