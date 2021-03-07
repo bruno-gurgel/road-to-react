@@ -48,7 +48,12 @@ export default function App() {
     <div>
       <h1>My Hacker Stories</h1>
 
-      <Search search={searchTerm} onSearch={handleSearch} />
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      />
 
       <hr />
 
@@ -74,11 +79,11 @@ function Item({ title, url, author, num_comments, points }) {
   );
 }
 
-function Search({ search, onSearch }) {
+function InputWithLabel({ id, label, value, type = "text", onInputChange }) {
   return (
     <>
-      <label htmlFor="search">Search: </label>
-      <input id="search" type="text" onChange={onSearch} value={search} />
+      <label htmlFor={id}>{label}:</label>
+      <input id={id} type={type} onChange={onInputChange} value={value} />
     </>
   );
 }
