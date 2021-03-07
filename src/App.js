@@ -1,6 +1,6 @@
 // import './App.css';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function App() {
   const stories = [
@@ -53,6 +53,7 @@ export default function App() {
         label="Search"
         value={searchTerm}
         onInputChange={handleSearch}
+        isFocused
       >
         <strong>Search:</strong>
       </InputWithLabel>
@@ -81,11 +82,31 @@ function Item({ title, url, author, num_comments, points }) {
   );
 }
 
-function InputWithLabel({ id, value, type = "text", onInputChange, children }) {
+function InputWithLabel({
+  id,
+  value,
+  type = "text",
+  onInputChange,
+  isFocused,
+  children,
+}) {
+  const inputRef = useRef();
+  useEffect(() => {
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
   return (
     <>
       <label htmlFor={id}>{children} </label>
-      <input id={id} type={type} onChange={onInputChange} value={value} />
+      <input
+        ref={inputRef}
+        id={id}
+        type={type}
+        onChange={onInputChange}
+        value={value}
+        autoFocus={isFocused}
+      />
     </>
   );
 }
