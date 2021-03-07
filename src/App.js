@@ -76,9 +76,9 @@ function Item({ title, url, author, num_comments, points }) {
 
 function Search({ search, onSearch }) {
   return (
-    <div>
+    <>
       <label htmlFor="search">Search: </label>
       <input id="search" type="text" onChange={onSearch} value={search} />
-    </div>
+    </>
   );
 }
