@@ -53,7 +53,9 @@ export default function App() {
         label="Search"
         value={searchTerm}
         onInputChange={handleSearch}
-      />
+      >
+        <strong>Search:</strong>
+      </InputWithLabel>
 
       <hr />
 
@@ -79,10 +81,10 @@ function Item({ title, url, author, num_comments, points }) {
   );
 }
 
-function InputWithLabel({ id, label, value, type = "text", onInputChange }) {
+function InputWithLabel({ id, value, type = "text", onInputChange, children }) {
   return (
     <>
-      <label htmlFor={id}>{label}:</label>
+      <label htmlFor={id}>{children} </label>
       <input id={id} type={type} onChange={onInputChange} value={value} />
     </>
   );
