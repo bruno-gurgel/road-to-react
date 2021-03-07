@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function App() {
-  const stories = [
+  const initialStories = [
     {
       title: "React",
       url: "https://reactjs.org/",
@@ -35,6 +35,14 @@ export default function App() {
   };
 
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "React");
+  const [stories, setStories] = useState(initialStories);
+
+  const handleRemoveStory = (item) => {
+    const newStories = stories.filter(
+      (story) => item.objectID !== story.objectID
+    );
+    setStories(newStories);
+  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -60,16 +68,19 @@ export default function App() {
 
       <hr />
 
-      <List list={searchedStories} />
+      <List list={searchedStories} onRemoveItem={handleRemoveStory} />
     </div>
   );
 }
 
-function List({ list }) {
-  return list.map(({ objectID, ...item }) => <Item key={objectID} {...item} />);
+function List({ list, onRemoveItem }) {
+  return list.map((item) => (
+    <Item key={item.objectID} onRemoveItem={onRemoveItem} item={item} />
+  ));
 }
 
-function Item({ title, url, author, num_comments, points }) {
+function Item({ onRemoveItem, item }) {
+  const { title, url, author, num_comments, points } = item;
   return (
     <div>
       <span>
@@ -78,6 +89,11 @@ function Item({ title, url, author, num_comments, points }) {
       <span>{author}</span>
       <span>{num_comments}</span>
       <span>{points}</span>
+      <span>
+        <button type="button" onClick={() => onRemoveItem(item)}>
+          Dismiss
+        </button>
+      </span>
     </div>
   );
 }
