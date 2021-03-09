@@ -1,6 +1,6 @@
 // import './App.css';
 
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -23,11 +23,6 @@ export default function App() {
       objectID: 1,
     },
   ];
-
-  const getAsyncStories = () =>
-    new Promise((resolve) =>
-      setTimeout(() => resolve({ data: { stories: initialStories } }), 2000)
-    );
 
   const useSemiPersistentState = (key, initialState) => {
     const [value, setValue] = useState(
@@ -81,11 +76,9 @@ export default function App() {
     isError: false,
   });
 
-  useEffect(() => {
-    if (searchTerm === "") return;
-
+  const handleFetchStories = useCallback(() => {
+    if (!searchTerm) return;
     dispatchStories({ type: "STORIES_FETCH_INIT" });
-
     fetch(`${API_ENDPOINT}${searchTerm}`)
       .then((response) => response.json())
       .then((result) => {
@@ -96,6 +89,10 @@ export default function App() {
       })
       .catch(() => dispatchStories({ type: "STORIES_FETCH_FAILURE" }));
   }, [searchTerm]);
+
+  useEffect(() => {
+    handleFetchStories();
+  }, [handleFetchStories]);
 
   const handleRemoveStory = (item) => {
     dispatchStories({
