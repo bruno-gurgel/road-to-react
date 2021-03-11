@@ -1,4 +1,4 @@
-import "./App.css";
+import styles from "./App.module.css";
 
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 
@@ -92,8 +92,8 @@ export default function App() {
 	};
 
 	return (
-		<div className="container">
-			<h1 className="headline-primary">My Hacker Stories</h1>
+		<div className={styles.container}>
+			<h1 className={styles.headlinePrimary}>My Hacker Stories</h1>
 
 			<SearchForm
 				searchTerm={searchTerm}
@@ -119,7 +119,7 @@ function List({ list, onRemoveItem }) {
 function Item({ onRemoveItem, item }) {
 	const { title, url, author, num_comments, points } = item;
 	return (
-		<div className="item">
+		<div className={styles.item}>
 			<span style={{ width: "40%" }}>
 				<a href={url}>{title}</a>
 			</span>
@@ -129,7 +129,7 @@ function Item({ onRemoveItem, item }) {
 			<span style={{ width: "10%" }}>
 				<button
 					type="button"
-					className="button button_small"
+					className={`${styles.button} ${styles.button_small}`}
 					onClick={() => onRemoveItem(item)}
 				>
 					Dismiss
@@ -148,12 +148,12 @@ function InputWithLabel({ id, value, type = "text", onInputChange, isFocused, ch
 	}, [isFocused]);
 	return (
 		<>
-			<label htmlFor={id} className="label">
+			<label htmlFor={id} className={styles.label}>
 				{children}{" "}
 			</label>
 			<input
 				ref={inputRef}
-				className="input"
+				className={styles.input}
 				id={id}
 				type={type}
 				onChange={onInputChange}
@@ -166,11 +166,15 @@ function InputWithLabel({ id, value, type = "text", onInputChange, isFocused, ch
 
 function SearchForm({ searchTerm, onSearchInput, onSearchSubmit }) {
 	return (
-		<form className="search-form" onSubmit={onSearchSubmit}>
+		<form className={styles.searchForm} onSubmit={onSearchSubmit}>
 			<InputWithLabel id="search" value={searchTerm} isFocused onInputChange={onSearchInput}>
 				<strong>Search:</strong>
 			</InputWithLabel>
-			<button type="submit" className="button button_large" disabled={!searchTerm}>
+			<button
+				type="submit"
+				className={`${styles.button} ${styles.buttonLarge}`}
+				disabled={!searchTerm}
+			>
 				Submit
 			</button>
 		</form>
