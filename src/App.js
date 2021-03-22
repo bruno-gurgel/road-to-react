@@ -171,6 +171,8 @@ function SearchForm({ searchTerm, onSearchInput, onSearchSubmit }) {
 	);
 }
 
+export { storiesReducer, SearchForm, InputWithLabel, List, Item };
+
 const StyledContainer = styled.div`
 	height: 100vw;
 	padding: 20px;
